@@ -13,7 +13,7 @@ class RegForm extends React.Component<MyProps, MyState> {
   }
 
   handleChange(event: any) {
-    if(event.target.name == "email")
+    if(event.target.name === "email")
       this.setState({email: event.target.value})
     else
       this.setState({password: event.target.value})

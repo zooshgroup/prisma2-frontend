@@ -4,6 +4,7 @@ import { Navbar } from './navbar'
 import { Greeting } from './banner'
 import { Content } from './content/index'
 
+//------can i use it like this
 const user = whoAmI()
 const isLoggedIn = (user) ? true : false
 

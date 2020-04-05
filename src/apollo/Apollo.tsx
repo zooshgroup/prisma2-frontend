@@ -27,12 +27,12 @@ export const client = new ApolloClient({
     cache,
 });
 
-function ann(){
+function ann() {
   return authMiddleware.concat(createIsomorphLink())
 }
 
 function createIsomorphLink() {
     return new HttpLink({
-      uri: 'http://localhost:4000',
+      uri: 'http://192.168.1.118:4000',
     })
 }
