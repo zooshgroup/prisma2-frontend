@@ -1,8 +1,11 @@
+
 import React from 'react';
 
 type MyProps = { }
 type MyState = { email: string, password: string}
 
+/*
+to be made
 class NameForm extends React.Component<MyProps, MyState> {
   constructor(props: any) {
     super(props);
@@ -63,3 +66,4 @@ function App() {
     </div>
   );
 }
+*/

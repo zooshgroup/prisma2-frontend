@@ -6,7 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align:center;
-  padding-top: 45vh;
+  padding-top: 30vh;
 }
 
 ul {
@@ -35,4 +35,8 @@ code {
 
 .active {
   color: lightcoral!important;
+}
+
+header {
+  margin-bottom: 10vh;
 }
