@@ -21,7 +21,7 @@ const WHO_Q = gql`
 `
 export function whoAmI(){
   //const { loading, error, data } = useQuery(WHO_Q)
-  return ""
+  return "a"
 }
 /*
 export const PUT_M = gql`
