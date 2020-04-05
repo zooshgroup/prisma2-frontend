@@ -6,7 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align:center;
-  padding-top: 30vh;
+  padding-top: 25vh;
 }
 
 ul {
@@ -39,4 +39,20 @@ code {
 
 header {
   margin-bottom: 10vh;
+}
+
+label input {
+  height: 19px;
+  text-align: center;
+}
+
+label {
+  display: block;
+  padding: 10px;
+}
+
+.button {
+  margin-top: 10px!important;
+  padding: 20px;
+  width: 5%;
 }
