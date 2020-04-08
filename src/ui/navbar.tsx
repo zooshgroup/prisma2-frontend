@@ -1,15 +1,19 @@
 import React from 'react'
-/*
------------ this does not work - QUESTION WHY
 
 interface navItemProps {
-    target: string,
+    name: string,
+    id: number,
+    handler: any,
+    active: number
 }
-function navItem(props: navItemProps) {
-    return <li><a href={props.target}>asd</a></li>
+function NavItem(props: navItemProps) {
+    let active = ""
+    if (props.active === props.id) active = "active"
+    return (
+        <li>
+            <a href="/" id={props.id.toString()} onClick={props.handler} className={active}>{props.name}</a>
+        </li>)
 }
-<navItem target="Home"/>
-*/
 
 interface navbarProps {
     onNavigate: any,
@@ -25,8 +29,18 @@ export function Navbar(props: navbarProps) {
       }
     if (props.login) {
         // eslint-disable-next-line
-        return <ul><li><a href="/" id="0" onClick={handleClick} className={props.active === 0 ? "active" : ""}>Home</a></li><li><a href="/" id="1" onClick={handleClick} className={props.active === 1 ? "active" : ""}>Movies</a></li><li><a href="/" id="2" onClick={handleClick} className={props.active === 2 ? "active" : ""}>Dashboard</a></li></ul>
+        return (
+            <ul>
+                <NavItem name="Home" id={0} handler={handleClick} active={props.active}/>
+                <NavItem name="Movies" id={1} handler={handleClick} active={props.active}/>
+                <NavItem name="Dashboard" id={2} handler={handleClick} active={props.active}/>
+            </ul>)
     }
     // eslint-disable-next-line
-    return <ul><li><a href="/" id="0" onClick={handleClick} className={props.active === 0 ? "active" : ""}>Home</a></li><li><a href="/" id="1" onClick={handleClick} className={props.active === 1 ? "active" : ""}>Login</a></li><li><a href="/" id="2" onClick={handleClick} className={props.active === 2 ? "active" : ""}>Register</a></li></ul>
+    return (
+        <ul>
+            <NavItem name="Home" id={0} handler={handleClick} active={props.active}/>
+            <NavItem name="Login" id={1} handler={handleClick} active={props.active}/>
+            <NavItem name="Register" id={2} handler={handleClick} active={props.active}/>
+        </ul>)
 }
