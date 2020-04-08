@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import { client } from './Apollo';
+import UI from './ui/shield';
+import { client } from './apollo/Apollo';
 import * as serviceWorker from './serviceWorker';
 import {ApolloProvider} from '@apollo/react-hooks'
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <UI />
   </ApolloProvider>,
   document.getElementById('root')
 );

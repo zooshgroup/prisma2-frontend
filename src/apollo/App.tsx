@@ -1,19 +1,13 @@
 import React from 'react';
-import './App.css';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
-import { ChildDataProps, graphql } from 'react-apollo'
 
-const GET_Q = gql`
-  query movies($search: String!) {
-    movies(search: $search) {
-      title
-    }
-  }
-`
+//-------ignore this file
+//import { useQuery, useMutation } from '@apollo/react-hooks';
+//import gql from 'graphql-tag';
+//import { ChildDataProps, graphql } from 'react-apollo'
 
+/*
 export const PUT_M = gql`
-  mutation loginUser($data: String!) {
+  mutation loginUser($data: LoginData!) {
     loginUser(data: $data) {
       token
     }
@@ -28,20 +22,20 @@ function App() {
     toki = data.loginUser.token
   }
   
-  let input
+  //let input
 
   return (
     <div>
       <form
         onSubmit={e => {
           e.preventDefault()
-          valasz({ variables: { data: "hello@birovince.com" } })
+          valasz({variables :{ data: {email: "hello@birovince.com",password:"jelszoxdxd"} }})
           //input.value = '';
         }}
       >
         <input
           ref={node => {
-            input = node;
+            //input = node;
           }}
         />
         <input name="toki" type="text" value={toki}/>
@@ -50,26 +44,6 @@ function App() {
     </div>
   );
 }
-
-function App1() {
-  const { loading, error, data } = useQuery(GET_Q,
-    //{variables: { language: 'english' },}
-    )
-  if (loading) return <p>Loading ...</p>
-  //return <h1>Hello {data.whoami}!</h1>
-}
-
-function App2() {
-  const { loading, error, data } = useQuery(GET_Q,
-    {variables: { search: 'cigány' },}
-    )
-  if (loading) return <p>Loading ...</p>
-  console.log(data.movies)
-  const result = data.movies[0].title;
-  return <h1>Hello {result}!</h1>
-}
-
-export default App;
 
 type User = {
   name: string
@@ -93,4 +67,4 @@ const trytypes = graphql<{}, Response, Variables, ChildProps>(GET_Q, {
   options: () => ({
     //variables: { episode: "JEDI" }
   })
-});
+});*/
