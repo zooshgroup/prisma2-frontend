@@ -1,14 +1,10 @@
 import React from 'react'
-import { whoAmI } from '../apollo/App'
 import { Navbar } from './navbar'
-import { Greeting } from './banner'
+import { Banner } from './banner'
 import { Content } from './content/index'
 
-//------can i use it like this
-const user = whoAmI()
-const isLoggedIn = (user) ? true : false
-
 interface MyProps {
+    user: string
 }
   
 interface AppState {
@@ -16,16 +12,16 @@ interface AppState {
 }
 
 class App extends React.Component<MyProps, AppState> {
-    constructor(props: any) { //PROPER TS WAY?
+    constructor(props: any) {
         super(props)
         this.state = {
             page : 0
         }
-        // This binding is necessary to make `this` work in the callback
-        this.handleNavigation = this.handleNavigation.bind(this);
     }
+    readonly user = this.props.user
+    readonly isLoggedIn = (this.user) ? true : false
 
-    handleNavigation(pageno: number) {
+    handleNavigation = (pageno: number) => {
         if(pageno>-1) {
             this.setState(state => ({
                 page: pageno
@@ -34,7 +30,16 @@ class App extends React.Component<MyProps, AppState> {
     }
 
     render() {
-        return <main><header><Greeting login={isLoggedIn} name={user} /><Navbar login={isLoggedIn} active={this.state.page} onNavigate={this.handleNavigation} /></header><article><Content login={isLoggedIn} page={this.state.page} /></article></main>
+        return (
+            <main>
+                <header>
+                    <Banner name={this.user} />
+                    <Navbar login={this.isLoggedIn} active={this.state.page} onNavigate={this.handleNavigation} />
+                </header>
+                <article>
+                    <Content login={this.isLoggedIn} page={this.state.page} />
+                </article>
+            </main>)
     }
 }
 

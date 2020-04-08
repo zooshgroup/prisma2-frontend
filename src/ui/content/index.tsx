@@ -11,8 +11,6 @@ interface contentProps {
     login: boolean,
 }
 
-//-----save state in cache?
-
 export function Content(props: contentProps) {
     let element
     switch(props.page) {

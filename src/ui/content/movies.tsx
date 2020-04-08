@@ -1,6 +1,6 @@
 import React from 'react'
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { useQuery } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
 const MOV_Q = gql`
   query movies {
@@ -14,7 +14,8 @@ interface Movie {
     title: string
 }
 
-export function Movies(){
+//is it good to double check whether user is logged in? eg: in greeting, nav, content
+export function Movies() {
     const { loading, error, data } = useQuery(MOV_Q)
     if (loading) return <p>Loading ...</p>
     if (error) return <h1>Log in to view movies.</h1>

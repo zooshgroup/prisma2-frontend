@@ -1,28 +1,10 @@
-//import React from 'react';
+import React from 'react';
+
+//-------ignore this file
 //import { useQuery, useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+//import gql from 'graphql-tag';
 //import { ChildDataProps, graphql } from 'react-apollo'
 
-// eslint-disable-next-line
-const GET_Q = gql`
-  query movies($search: String!) {
-    movies(search: $search) {
-      title
-    }
-  }
-`
-// eslint-disable-next-line
-const WHO_Q = gql`
-  query whoami {
-    whoami {
-      name
-    }
-  }
-`
-export function whoAmI(){
-  //const { loading, error, data } = useQuery(WHO_Q)
-  return "a"
-}
 /*
 export const PUT_M = gql`
   mutation loginUser($data: LoginData!) {
@@ -62,26 +44,6 @@ function App() {
     </div>
   );
 }
-
-function App2() {
-  const { loading, error, data } = useQuery(GET_Q,
-    //{variables: { language: 'english' },}
-    )
-  if (loading) return <p>Loading ...</p>
-  //return <h1>Hello {data.whoami}!</h1>
-}
-
-function App22() {
-  const { loading, error, data } = useQuery(GET_Q,
-    {variables: { search: 'cigány' },}
-    )
-  if (loading) return <p>Loading ...</p>
-  console.log(data.movies)
-  const result = data.movies[0].title;
-  return <h1>Hello {result}!</h1>
-}
-
-export default App;
 
 type User = {
   name: string
