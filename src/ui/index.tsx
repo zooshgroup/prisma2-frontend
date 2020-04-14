@@ -2,7 +2,6 @@ import React from 'react'
 import { Navbar } from './navbar'
 import { Banner } from './banner'
 import { Content } from './content/index'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
 interface MyProps {
     user: string
@@ -32,21 +31,17 @@ class App extends React.Component<MyProps, AppState> {
 
     render() {
         return (
-            <Router>
+            
                 <main>
                     <header>
-                        <Link to="/1">Netflix1</Link>
-                        <Link to="/2">Netflix2</Link>
                         <Banner name={this.user} />
                         <Navbar login={this.isLoggedIn} active={this.state.page} onNavigate={this.handleNavigation} />
                     </header>
                     <article>
-                        <Switch>
-                            <Route path="/:id" children={<Content login={this.isLoggedIn} page={this.state.page} />} />
-                        </Switch>
+                        <Content login={this.isLoggedIn} page={this.state.page} />
                     </article>
                 </main>
-            </Router>)
+            )
     }
 }
 
