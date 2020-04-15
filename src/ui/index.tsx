@@ -3,9 +3,10 @@ import { Navbar } from './navbar'
 import { Banner } from './banner'
 import { Content } from './content/index'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { User } from '../types/typedefs'
 
 interface MyProps {
-    user: string
+    user: User
 }
   
 interface AppState {
@@ -20,7 +21,7 @@ class App extends React.Component<MyProps, AppState> {
         }
     }
     readonly user = this.props.user
-    readonly isLoggedIn = (this.user) ? true : false
+    readonly isLoggedIn = (this.user.name) ? true : false
 
     handleNavigation = (pageno: number) => {
         if(pageno>-1) {
@@ -35,11 +36,11 @@ class App extends React.Component<MyProps, AppState> {
             <Router>
                 <main>
                     <header>
-                        <Banner name={this.user} />
+                        <Banner name={this.user.name} />
                         <Navbar login={this.isLoggedIn} active={this.state.page} onNavigate={this.handleNavigation} />
                     </header>
                     <article>
-                        <Content login={this.isLoggedIn} page={this.state.page} />
+                        <Content login={this.isLoggedIn} page={this.state.page} user={this.user} />
                     </article>
                 </main>
             </Router>)
