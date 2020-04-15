@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 
-type MyProps = { }
-type MyState = { email: string, password: string}
-
 interface LoginInput {
   password: string,
   email: string
+}
+
+type LoginResponse = {
+  token: string
 }
 
 const LOGIN_M = gql`
@@ -21,24 +22,36 @@ function LogForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const [login, { data }] = useMutation(LOGIN_M)
+  const [login, { data:response, error }] = useMutation(LOGIN_M, { errorPolicy: 'all' })
   
-  function handleSubmit(event: any) {
+  //why am I not getting the first click login data, only from the 2nd click
+  async function handleSubmit(event: any) {
+    event.preventDefault()
     if(email && email.includes('@',1) && email.includes('.',3)) {
-      if(password && password.length > 7) {
+      if(password) {
         let loginData: LoginInput = {email: email, password: password}
-        console.log(loginData)
-        login({ variables: { data: loginData } })
-        console.log(data)
+        try {
+          await (login({ variables: { data: loginData } }))
+          let loginUserResponse:LoginResponse
+          if(response && response.loginUser) {
+            loginUserResponse = response.loginUser
+            const token = loginUserResponse.token
+            localStorage.setItem('token',token)
+            alert('Successful login.')
+          }
+        } catch(e) {
+          console.log(e)
+          console.log(error)
+          alert('Incorrect username or password.')
+        }
       }
       else {
-        alert('password must be at least 8 chars long')
+        alert('Enter a password')
       }
     }
     else {
-      alert('email is invalid')
+      alert('Enter a valid email address')
     }
-    event.preventDefault();
   }
   
   function handleChange(event: any) {
@@ -58,7 +71,7 @@ function LogForm() {
         </label>
         <input className="button" type="submit" value="Log in" />
       </form>
-  );
+  )
 }
 
 export function Login(){

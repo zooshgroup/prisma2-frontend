@@ -2,18 +2,15 @@ import React, { useState } from 'react'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 
-type MyProps = { }
-type MyState = { email: string, name: string, password: string, password2: string}
-
-interface RegisterInput {
-  password: string,
+interface UserCreateInput {
   name: string,
   email: string,
+  password: string,
   age: number,
 }
 
 const REG_M = gql`
-  mutation Register($data: RegisterInput!) {
+  mutation Register($data: UserCreateInput!) {
     signupUser(data: $data) {
       name
     }
@@ -25,33 +22,54 @@ function RegForm() {
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')
 
-  const [register, { data }] = useMutation(REG_M)
-  
+  //why cannot I use data:response here? is it a new "data"?
+  const registerCompleted = (data: any) => {
+    let registeredUserName:string
+    if(data &&data.signupUser) {
+      registeredUserName = data.signupUser.name
+      alert(`Successful registration for ${registeredUserName}, now you can log in.`)
+    }
+  }
+
+  const registerError = (e: any) => {
+    alert('Error in registration. Invalid data or e-mail is taken.')
+  }
+
+  const [register, { data:response, error }] = useMutation(REG_M, { errorPolicy: 'all' , onCompleted: registerCompleted, onError: registerError})
+
   function handleSubmit(event: any) {
+    event.preventDefault()
     if(email && email.includes('@',1) && email.includes('.',3)) {
-      if(password && password.length > 7) {
+      if(password && password.length > 6) {
         if(password === password2) {
           if(name) {
-            let registerData: RegisterInput = {email: email, password: password, name: name, age: -1}
+            let registerData: UserCreateInput = {name: name, email: email, password: password, age: -1}
             register({ variables: { data: registerData } })
-            console.log(data)
+              /*
+              ---- async await version without onCompleted event
+              ---- why cant I use try , catch with onCompleted?
+              let registeredUserName:string
+              if(response && response.signupUser) {
+                registeredUserName = response.signupUser.name
+                alert(`Successful registration for ${registeredUserName}, now you can log in.`)
+              }}
+              */
           }
           else {
-            alert('provide a name')
+            alert('Please provide a name.')
           }
         }
         else {
-          alert('passwords do not match')
+          alert('Passwords do not match.')
         }
       }
       else {
-        alert('password must be at least 8 chars long')
+        alert('Password must be at least 7 chars long.')
       }
     }
     else {
-      alert('email is invalid')
+      alert('Enter a valid e-mail address.')
     }
-    event.preventDefault();
   }
   
   function handleChange(event: any) {

@@ -8,7 +8,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 const authMiddleware = new ApolloLink((operation: any, forward: any) => {
   operation.setContext({
     headers: {
-      authorization: localStorage.getItem('token') ||  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhM2EzZjE1My02ODllLTQ3MjAtOWFlNC0zM2I4MWM4NWI1NmMiLCJpYXQiOjE1ODQ4MTI1ODR9.__lnPv7Qi3LFnEE34dV-K8hpcyJkV1RmyS2ctlX2Uug",
+      authorization: localStorage.getItem('token') || null,
     }
   });
 

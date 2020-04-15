@@ -22,7 +22,7 @@ export default function ShieldedApp() {
     )*/
     let netErr = ""
     if(error && error.networkError) netErr = error.networkError.message + " - "
-    if (error && !error.message.includes('Not Authorised')) return <h1>{netErr}Error<span className="active">.</span></h1>    
+    //if (error && !error.message.includes('Not Authorised')) return <h1>{netErr}Error<span className="active">.</span></h1>    
     let name = data && data.whoami.name
     return <App user={name}/>
 }
