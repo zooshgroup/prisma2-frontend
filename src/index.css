@@ -56,3 +56,7 @@ label {
   padding: 20px;
   width: 5%;
 }
+
+input {
+  text-align: center;
+}
