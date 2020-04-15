@@ -5,20 +5,32 @@ import { Register } from './register'
 import { Dashboard } from './dashboard'
 import { PageNotFound } from './notfound'
 import { Home } from './home'
+import { Switch, Route } from 'react-router-dom'
 
 interface contentProps {
     page: number,
     login: boolean,
 }
 
-
 export function Content(props: contentProps) {
-    let element
-    switch(props.page) {
-        case 0: element = <Home />; break;
-        case 1: element = props.login ? <Movies /> : <Login />; break;
-        case 2: element = props.login ? <Dashboard /> : <Register />; break;
-        default: element = <PageNotFound />; break;
-    }
-    return element
+    return (
+        <Switch>
+            <Route path="/" exact>
+                <Home />
+            </Route>
+            <Route path="/login">
+                <Login />
+            </Route>
+            <Route path="/register">
+                <Register />
+            </Route>
+            <Route path="/movies">
+                <Movies />
+            </Route>
+            <Route path="/dashboard">
+                <Dashboard />
+            </Route>
+            <Route component={PageNotFound} />
+        </Switch>
+    )
 }

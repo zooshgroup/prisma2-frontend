@@ -36,7 +36,7 @@ class App extends React.Component<MyProps, AppState> {
                 <main>
                     <header>
                         <Banner name={this.user} />
-                        <Navbar login={this.isLoggedIn} active={this.state.page} onNavigate={this.handleNavigation} />
+                        <Navbar login={this.isLoggedIn} />
                     </header>
                     <article>
                         <Content login={this.isLoggedIn} page={this.state.page} />
