@@ -1,44 +1,77 @@
-import React from 'react'
+import React, { useState } from 'react'
+import gql from 'graphql-tag'
+import { useMutation } from '@apollo/react-hooks'
 
-type MyProps = { }
-type MyState = { email: string, password: string}
+interface LoginInput {
+  password: string,
+  email: string
+}
 
-//validation?
+type LoginResponse = {
+  token: string
+}
 
-class LogForm extends React.Component<MyProps, MyState> {
-  constructor(props: any) {
-    super(props);
-    this.state = {email: '', password:''};
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+const LOGIN_M = gql`
+  mutation Login($data: LoginInput!) {
+    loginUser(data: $data) {
+      token
+    }
   }
+`
+function LogForm() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-  handleChange(event: any) {
+  const [login, { data:response, error }] = useMutation(LOGIN_M, { errorPolicy: 'all' })
+  
+  //why am I not getting the first click login data, only from the 2nd click
+  async function handleSubmit(event: any) {
+    event.preventDefault()
+    if(email && email.includes('@',1) && email.includes('.',3)) {
+      if(password) {
+        let loginData: LoginInput = {email: email, password: password}
+        try {
+          await (login({ variables: { data: loginData } }))
+          let loginUserResponse:LoginResponse
+          if(response && response.loginUser) {
+            loginUserResponse = response.loginUser
+            const token = loginUserResponse.token
+            localStorage.setItem('token',token)
+            alert('Successful login.')
+          }
+        } catch(e) {
+          console.log(e)
+          console.log(error)
+          alert('Incorrect username or password.')
+        }
+      }
+      else {
+        alert('Enter a password')
+      }
+    }
+    else {
+      alert('Enter a valid email address')
+    }
+  }
+  
+  function handleChange(event: any) {
     if(event.target.name === "email")
-      this.setState({email: event.target.value})
-    else
-      this.setState({password: event.target.value})
+      setEmail(event.target.value)
+    if(event.target.name === "password")
+      setPassword(event.target.value)
   }
 
-  handleSubmit(event: any) {
-    alert('A name was submitted: ' + this.state.email + this.state.password);
-    event.preventDefault();
-  }
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
+  return (
+    <form onSubmit={handleSubmit}>
         <label>
-          <input name="email" type="text" value={this.state.email} onChange={this.handleChange} placeholder="mail"/>
+          <input name="email" type="text" value={email} onChange={handleChange} placeholder="mail"/>
         </label>
         <label>
-          <input name="password" type="text" value={this.state.password} onChange={this.handleChange} placeholder="password"/>
+          <input name="password" type="text" value={password} onChange={handleChange} placeholder="password"/>
         </label>
         <input className="button" type="submit" value="Log in" />
       </form>
-    );
-  }
+  )
 }
 
 export function Login(){

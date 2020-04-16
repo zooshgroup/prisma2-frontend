@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import UI from './ui/shield';
-import { client } from './apollo/Apollo';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import UI from './ui/shield'
+import { client } from './apollo/Apollo'
+import * as serviceWorker from './serviceWorker'
 import {ApolloProvider} from '@apollo/react-hooks'
 
 ReactDOM.render(

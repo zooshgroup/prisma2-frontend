@@ -2,6 +2,7 @@ import React from 'react'
 import { Navbar } from './navbar'
 import { Banner } from './banner'
 import { Content } from './content/index'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 interface MyProps {
     user: string
@@ -31,15 +32,17 @@ class App extends React.Component<MyProps, AppState> {
 
     render() {
         return (
-            <main>
-                <header>
-                    <Banner name={this.user} />
-                    <Navbar login={this.isLoggedIn} active={this.state.page} onNavigate={this.handleNavigation} />
-                </header>
-                <article>
-                    <Content login={this.isLoggedIn} page={this.state.page} />
-                </article>
-            </main>)
+            <Router>
+                <main>
+                    <header>
+                        <Banner name={this.user} />
+                        <Navbar login={this.isLoggedIn} />
+                    </header>
+                    <article>
+                        <Content login={this.isLoggedIn} page={this.state.page} />
+                    </article>
+                </main>
+            </Router>)
     }
 }
 
