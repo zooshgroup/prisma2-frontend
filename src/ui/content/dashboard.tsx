@@ -13,6 +13,6 @@ export function Dashboard(props: dashProps) {
             <p>Name: {props.user.name}</p>
             {ageP}
             <pre>If admin, user list printed here</pre>
-            <button onClick={(e) => localStorage.removeItem('token')}>Log out</button>
+            <button onClick={(e: React.FormEvent) => localStorage.removeItem('token')}>Log out</button>
         </aside>)
 }
