@@ -1,9 +1,9 @@
 import React from 'react'
 
 interface welcomeProps {
-    name: string,
+    name?: string,
 }
 
 export function Banner(props: welcomeProps) {
-    return <h1>Hello, {props.name?props.name:"Stranger"}<span className="active">!</span></h1>
+    return <h1>Hello, {props.name ? props.name : "Stranger"}<span className="active">!</span></h1>
 }

@@ -10,9 +10,8 @@ import { User } from '../../types/typedefs'
 interface contentProps {
     page: number,
     login: boolean,
-    user: User,
+    user?: User,
 }
-
 
 export function Content(props: contentProps) {
     let element

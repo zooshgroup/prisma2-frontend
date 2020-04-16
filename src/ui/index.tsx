@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { User } from '../types/typedefs'
 
 interface MyProps {
-    user: User
+    user?: User,
 }
   
 interface AppState {
@@ -21,7 +21,7 @@ class App extends React.Component<MyProps, AppState> {
         }
     }
     readonly user = this.props.user
-    readonly isLoggedIn = (this.user.name) ? true : false
+    readonly isLoggedIn = (this.user) ? true : false
 
     handleNavigation = (pageno: number) => {
         if(pageno>-1) {
@@ -36,7 +36,7 @@ class App extends React.Component<MyProps, AppState> {
             <Router>
                 <main>
                     <header>
-                        <Banner name={this.user.name} />
+                        <Banner name={this.user && this.user.name} />
                         <Navbar login={this.isLoggedIn} active={this.state.page} onNavigate={this.handleNavigation} />
                     </header>
                     <article>

@@ -13,7 +13,7 @@ const WHO_Q = gql`
 `
 
 export default function ShieldedApp() {
-    const { loading, error, data } = useQuery(WHO_Q)
+    const { loading, error, data } = useQuery<{ whoami: User }>(WHO_Q)
     if (loading) return <p>Loading ...</p>
     /*if (error && error.graphQLErrors)
     error.graphQLErrors.map(({ message, locations, path }) =>
@@ -22,12 +22,9 @@ export default function ShieldedApp() {
       ),
     )*/
     let netErr = ""
-    if(error && error.networkError) netErr = error.networkError.message + " - "
-    if (error && !error.message.includes('Not Authorised')) return <h1>{netErr}Error<span className="active">.</span></h1>    
-    let name = data && data.whoami.name
-    let email = data && data.whoami.email
-    let age = data && data.whoami.age
-    const user: User = {name,email,age}
-    return <App user={user}/>
+    if (error && error.networkError) netErr = error.networkError.message + " - "
+    if (error && !error.message.includes('Not Authorised')) return <h1>{netErr}Server Error<span className="active">.</span></h1>    
+    
+    return <App user={data && data.whoami}/>
 }
     
