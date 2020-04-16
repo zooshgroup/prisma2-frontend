@@ -9,6 +9,14 @@ interface UserCreateInput {
   age: number,
 }
 
+interface signupResponse {
+  name: string,
+}
+
+interface RegisterResponse {
+  signupUser: signupResponse,
+}
+
 const REG_M = gql`
   mutation Register($data: UserCreateInput!) {
     signupUser(data: $data) {
@@ -22,22 +30,19 @@ function RegForm() {
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')
 
-  //why cannot I use data:response here? is it a new "data"?
-  const registerCompleted = (data: any) => {
-    let registeredUserName:string
-    if(data &&data.signupUser) {
-      registeredUserName = data.signupUser.name
-      alert(`Successful registration for ${registeredUserName}, now you can log in.`)
+  const registerCompleted = (response: RegisterResponse) => {
+    if(response) {
+      console.log(`Successful registration for ${response.signupUser.name}, now you can log in.`)
     }
   }
 
-  const registerError = (e: any) => {
-    alert('Error in registration. Invalid data or e-mail is taken.')
+  const registerError = () => {
+    console.error('Error in registration. Invalid data or e-mail is taken.')
   }
 
   const [register, { data:response, error }] = useMutation(REG_M, { errorPolicy: 'all' , onCompleted: registerCompleted, onError: registerError})
 
-  function handleSubmit(event: any) {
+  function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
     if(email && email.includes('@',1) && email.includes('.',3)) {
       if(password && password.length > 6) {
@@ -45,18 +50,9 @@ function RegForm() {
           if(name) {
             let registerData: UserCreateInput = {name: name, email: email, password: password, age: -1}
             register({ variables: { data: registerData } })
-              /*
-              ---- async await version without onCompleted event
-              ---- why cant I use try , catch with onCompleted?
-              let registeredUserName:string
-              if(response && response.signupUser) {
-                registeredUserName = response.signupUser.name
-                alert(`Successful registration for ${registeredUserName}, now you can log in.`)
-              }}
-              */
           }
           else {
-            alert('Please provide a name.')
+            console.error('Please provide a name.')
           }
         }
         else {
@@ -64,7 +60,7 @@ function RegForm() {
         }
       }
       else {
-        alert('Password must be at least 7 chars long.')
+        console.error('Password must be at least 7 chars long.')
       }
     }
     else {
@@ -72,28 +68,30 @@ function RegForm() {
     }
   }
   
-  function handleChange(event: any) {
-    if(event.target.name === "email")
-      setEmail(event.target.value)
-    if(event.target.name === "name")
-      setName(event.target.value)
-    if(event.target.name === "password")
-      setPassword(event.target.value)
-    if(event.target.name === "password2")
-      setPassword2(event.target.value)
+  function handleChange(event: React.FormEvent<HTMLInputElement>) {
+    if(event.currentTarget.name === "email")
+      setEmail(event.currentTarget.value)
+    if(event.currentTarget.name === "name")
+      setName(event.currentTarget.value)
+    if(event.currentTarget.name === "password")
+      setPassword(event.currentTarget.value)
+    if(event.currentTarget.name === "password2")
+      setPassword2(event.currentTarget.value)
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <label>
-        <input name="email" type="text" value={email} onChange={handleChange} placeholder="mail"/>
-        <input name="name" type="text" value={name} onChange={handleChange} placeholder="name"/>
+        <input name="email" type="text" value={email} onChange={handleChange} placeholder="mail" required/>
+        <input name="name" type="text" value={name} onChange={handleChange} placeholder="name" required/>
       </label>
       <label>
-        <input name="password" type="text" value={password} onChange={handleChange} placeholder="password"/>
-        <input name="password2" type="text" value={password2} onChange={handleChange} placeholder="password again"/>
+        <input name="password" type="password" value={password} onChange={handleChange} placeholder="password" minLength={7} required/>
+        <input name="password2" type="password" value={password2} onChange={handleChange} placeholder="password again" minLength={7} required/>
       </label>
       <input className="button" type="submit" value="Register" />
+      {error && <p>Error in registration. Invalid data or e-mail is taken.</p>}
+      {response && <p>Successfull registration. Now you can log in.</p>}
     </form>
   );
 }
