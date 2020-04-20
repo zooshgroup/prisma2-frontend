@@ -10,12 +10,12 @@ interface UserCreateInput {
   age: number;
 }
 
-interface signupResponse {
+interface SignupResponse {
   name: string;
 }
 
 interface RegisterResponse {
-  signupUser: signupResponse;
+  signupUser: SignupResponse;
 }
 
 const REG_M = gql`
@@ -25,30 +25,30 @@ const REG_M = gql`
     }
   }
 `;
+
 function RegForm() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+  const [emailTaken, setEmailTakenErr] = useState(false);
+  const [emailErr, setEmailErr] = useState(false);
+  const [matchingErr, setMatchingErr] = useState(false);
+  const [serverErr, setServerErr] = useState(false);
 
-  const registerCompleted = (response: RegisterResponse) => {
-    if (response) {
-      console.log(
-        `Successful registration for ${response.signupUser.name}, now you can log in.`
-      );
+  const registerCompleted = (response: RegisterResponse) => { };
+
+  const registerError = (error: ApolloError) => {
+    if (error.graphQLErrors[0] && error.graphQLErrors[0].name && error.graphQLErrors[0].name === "EmailTakenError") {
+      setEmailTakenErr(true);
+    }
+    else {
+      setServerErr(true);
+      console.error('Server Error');
     }
   };
 
-  const registerError = (error: ApolloError) => {
-    error.graphQLErrors.map(({ name, message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: ${name} Message: ${message}, Location: ${locations}, Path: ${path}`
-      )
-    );
-    console.error("Error in registration. Invalid data or e-mail is taken.");
-  };
-
-  const [register, { data: response, error }] = useMutation(REG_M, {
+  const [register, { data: success }] = useMutation(REG_M, {
     errorPolicy: "all",
     onCompleted: registerCompleted,
     onError: registerError,
@@ -68,27 +68,37 @@ function RegForm() {
             };
             register({ variables: { data: registerData } });
           } else {
-            console.error("Please provide a name.");
+            console.error("Enter a name.");
           }
         } else {
-          alert("Passwords do not match.");
+          setMatchingErr(true);
         }
       } else {
         console.error("Password must be at least 7 chars long.");
       }
     } else {
-      alert("Enter a valid e-mail address.");
+      setEmailErr(true);
     }
   }
 
   function handleChange(event: React.FormEvent<HTMLInputElement>) {
-    if (event.currentTarget.name === "email")
+    setEmailTakenErr(false);
+    setServerErr(false);
+    if (event.currentTarget.name === "email") {
+      setEmailErr(false);
       setEmail(event.currentTarget.value);
-    if (event.currentTarget.name === "name") setName(event.currentTarget.value);
-    if (event.currentTarget.name === "password")
+    }
+    if (event.currentTarget.name === "name") {
+      setName(event.currentTarget.value);
+    }
+    if (event.currentTarget.name === "password") {
+      setMatchingErr(false);
       setPassword(event.currentTarget.value);
-    if (event.currentTarget.name === "password2")
+    }
+    if (event.currentTarget.name === "password2") {
+      setMatchingErr(false);
       setPassword2(event.currentTarget.value);
+    }
   }
 
   return (
@@ -132,8 +142,11 @@ function RegForm() {
         />
       </label>
       <input className="button" type="submit" value="Register" />
-      {error && <p>Error in registration. Invalid data or e-mail is taken.</p>}
-      {response && <p>Successfull registration. Now you can log in.</p>}
+      {emailTaken && <p>Error in registration. Invalid data or e-mail is taken.</p>}
+      {emailErr && <p>Enter a valid e-mail address.</p>}
+      {matchingErr && <p>Passswords do not match.</p>}
+      {success && <p>Successfull registration. Now you can log in.</p>}
+      {serverErr && <p>Server error.</p>}
     </form>
   );
 }
