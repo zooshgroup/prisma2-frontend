@@ -21,7 +21,6 @@ interface navbarProps {
 
 export function Navbar(props: navbarProps) {
   if (props.login) {
-    // eslint-disable-next-line
     return (
       <ul>
         <NavItem url="/" name="Home" />
@@ -30,7 +29,6 @@ export function Navbar(props: navbarProps) {
       </ul>
     );
   }
-  // eslint-disable-next-line
   return (
     <ul>
       <NavItem url="/" name="Home" />
