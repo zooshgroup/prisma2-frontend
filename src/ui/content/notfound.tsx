@@ -1,5 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export function PageNotFound() {
-    return <p>Nothing there yet...</p>
+  return <p>Nothing there yet...</p>;
 }
