@@ -5,17 +5,18 @@ import gql from 'graphql-tag'
 const MOV_Q = gql`
   query movies($search: String) {
     movies(search: $search) {
-      title
+      title, id
     }
   }
 `
 
 interface Movie {
-    title: string
+    title: string,
+    id: string,
 }
 
 interface lmProps {
-  searchString: string
+  searchString: string,
 }
 
 function ListMovies(props: lmProps) {
@@ -28,22 +29,23 @@ function ListMovies(props: lmProps) {
 
   if (data.movies.length === 0) return <h1>No movies found.</h1>
   const movies = data.movies
-  const listItems = movies.map((movie: Movie, index: number) =>
-        <h1 key={index}>{movie.title}</h1>
+  const listItems = movies.map((movie: Movie) =>
+        <h1 key={movie.id}>{movie.title}</h1>
   )
   return listItems
 }
 
 //is it good to double check whether user is logged in? eg: in greeting, nav, content
+//why is it auto refetching on state change?
 export function Movies() {
     const [search, upSearch] = useState('')    
 
-    function handleSubmit(event: any) {
+    function handleSubmit(event: React.FormEvent) {
       event.preventDefault()
     }
 
-    function handleChange(event: any) {
-      upSearch(event.target.value)
+    function handleChange(event: React.FormEvent<HTMLInputElement>) {
+      upSearch(event.currentTarget.value)
     }
 
     return (

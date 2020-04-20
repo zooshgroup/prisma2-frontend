@@ -4,11 +4,15 @@ import { useMutation } from '@apollo/react-hooks'
 
 interface LoginInput {
   password: string,
-  email: string
+  email: string,
 }
 
-type LoginResponse = {
-  token: string
+interface loginUserResponse {
+  token: string,
+}
+
+interface LoginResponse {
+  loginUser: loginUserResponse,
 }
 
 const LOGIN_M = gql`
@@ -22,54 +26,53 @@ function LogForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const [login, { data:response, error }] = useMutation(LOGIN_M, { errorPolicy: 'all' })
+  const loginCompleted = (response: LoginResponse) => {
+    if(response) {
+      localStorage.setItem('token',response.loginUser.token)
+      console.log('Successful login.')
+    }
+  }
+
+  const loginError = () => {
+    console.error('Error in registration. Invalid data or e-mail is taken.')
+  }
+
+  const [login, { data: success, error }] = useMutation(LOGIN_M, { errorPolicy: 'all' , onCompleted: loginCompleted, onError: loginError})
   
-  //why am I not getting the first click login data, only from the 2nd click
-  async function handleSubmit(event: any) {
+  function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
     if(email && email.includes('@',1) && email.includes('.',3)) {
       if(password) {
         let loginData: LoginInput = {email: email, password: password}
-        try {
-          await (login({ variables: { data: loginData } }))
-          let loginUserResponse:LoginResponse
-          if(response && response.loginUser) {
-            loginUserResponse = response.loginUser
-            const token = loginUserResponse.token
-            localStorage.setItem('token',token)
-            alert('Successful login.')
-          }
-        } catch(e) {
-          console.log(e)
-          console.log(error)
-          alert('Incorrect username or password.')
-        }
+        login({ variables: { data: loginData } })
       }
       else {
-        alert('Enter a password')
+        console.error('Enter a password')
       }
     }
     else {
-      alert('Enter a valid email address')
+      console.error('Enter a valid email address')
     }
   }
   
-  function handleChange(event: any) {
-    if(event.target.name === "email")
-      setEmail(event.target.value)
-    if(event.target.name === "password")
-      setPassword(event.target.value)
+  function handleChange(event: React.FormEvent<HTMLInputElement>) {
+    if(event.currentTarget.name === "email")
+      setEmail(event.currentTarget.value)
+    if(event.currentTarget.name === "password")
+      setPassword(event.currentTarget.value)
   }
 
   return (
     <form onSubmit={handleSubmit}>
         <label>
-          <input name="email" type="text" value={email} onChange={handleChange} placeholder="mail"/>
+          <input name="email" type="text" value={email} onChange={handleChange} placeholder="mail" required/>
         </label>
         <label>
-          <input name="password" type="text" value={password} onChange={handleChange} placeholder="password"/>
+          <input name="password" type="password" value={password} onChange={handleChange} placeholder="password" required/>
         </label>
         <input className="button" type="submit" value="Log in" />
+        {error && <p>Incorrect username or password.</p>}
+        {success && <p>Successful login.</p>}
       </form>
   )
 }
