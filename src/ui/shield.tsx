@@ -2,17 +2,18 @@ import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import App from '.'
+import { User } from '../types/typedefs'
 
 const WHO_Q = gql`
   query whoami {
     whoami {
-      name
+      name, email, age
     }
   }
 `
 
 export default function ShieldedApp() {
-    const { loading, error, data } = useQuery(WHO_Q)
+    const { loading, error, data } = useQuery<{ whoami: User }>(WHO_Q)
     if (loading) return <p>Loading ...</p>
     /*if (error && error.graphQLErrors)
     error.graphQLErrors.map(({ message, locations, path }) =>
@@ -21,9 +22,9 @@ export default function ShieldedApp() {
       ),
     )*/
     let netErr = ""
-    if(error && error.networkError) netErr = error.networkError.message + " - "
-    if (error && !error.message.includes('Not Authorised')) return <h1>{netErr}Error<span className="active">.</span></h1>    
-    let name = data && data.whoami.name
-    return <App user={name}/>
+    if (error && error.networkError) netErr = error.networkError.message + " - "
+    if (error && !error.message.includes('Not Authorised')) return <h1>{netErr}Server Error<span className="active">.</span></h1>    
+    
+    return <App user={data && data.whoami}/>
 }
     

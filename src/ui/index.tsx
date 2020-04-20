@@ -3,9 +3,10 @@ import { Navbar } from './navbar'
 import { Banner } from './banner'
 import { Content } from './content/index'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { User } from '../types/typedefs'
 
 interface MyProps {
-    user: string
+    user?: User,
 }
   
 interface AppState {
@@ -39,7 +40,7 @@ class App extends React.Component<MyProps, AppState> {
                         <Navbar login={this.isLoggedIn} />
                     </header>
                     <article>
-                        <Content login={this.isLoggedIn} page={this.state.page} />
+                        <Content login={this.isLoggedIn} page={this.state.page} user={this.user} />
                     </article>
                 </main>
             </Router>)

@@ -5,11 +5,13 @@ import { Register } from './register'
 import { Dashboard } from './dashboard'
 import { PageNotFound } from './notfound'
 import { Home } from './home'
+import { User } from '../../types/typedefs'
 import { Switch, Route } from 'react-router-dom'
 
 interface contentProps {
     page: number,
     login: boolean,
+    user?: User,
 }
 
 export function Content(props: contentProps) {
@@ -28,7 +30,7 @@ export function Content(props: contentProps) {
                 <Movies />
             </Route>
             <Route path="/dashboard">
-                <Dashboard />
+                <Dashboard user={props.user} />
             </Route>
             <Route component={PageNotFound} />
         </Switch>
