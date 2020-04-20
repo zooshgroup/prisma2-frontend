@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
+import { ApolloError } from "apollo-client";
+import { Redirect } from "react-router-dom";
 
 interface LoginInput {
   password: string;
   email: string;
 }
 
-interface loginUserResponse {
+interface LoginUserResponse {
   token: string;
 }
 
 interface LoginResponse {
-  loginUser: loginUserResponse;
+  loginUser: LoginUserResponse;
 }
 
 const LOGIN_M = gql`
@@ -22,22 +24,31 @@ const LOGIN_M = gql`
     }
   }
 `;
+
 function LogForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginErr, setLoginErr] = useState(false);
+  const [emailErr, setEmailErr] = useState(false);
+  const [serverErr, setServerErr] = useState(false);
 
   const loginCompleted = (response: LoginResponse) => {
     if (response) {
       localStorage.setItem("token", response.loginUser.token);
-      console.log("Successful login.");
     }
   };
 
-  const loginError = () => {
-    console.error("Error in registration. Invalid data or e-mail is taken.");
+  const loginError = (error: ApolloError) => {
+    if (error.graphQLErrors[0] && error.graphQLErrors[0].name && error.graphQLErrors[0].name === "WrongCredentialsError") {
+      setLoginErr(true);
+    }
+    else {
+      setServerErr(true);
+      console.error('Server Error');
+    }
   };
 
-  const [login, { data: success, error }] = useMutation(LOGIN_M, {
+  const [login, { data: success }] = useMutation(LOGIN_M, {
     errorPolicy: "all",
     onCompleted: loginCompleted,
     onError: loginError,
@@ -53,13 +64,17 @@ function LogForm() {
         console.error("Enter a password");
       }
     } else {
-      console.error("Enter a valid email address");
+      setEmailErr(true);
     }
   }
 
   function handleChange(event: React.FormEvent<HTMLInputElement>) {
-    if (event.currentTarget.name === "email")
+    setLoginErr(false);
+    setServerErr(false);
+    if (event.currentTarget.name === "email") {
+      setEmailErr(false);
       setEmail(event.currentTarget.value);
+    }
     if (event.currentTarget.name === "password")
       setPassword(event.currentTarget.value);
   }
@@ -87,8 +102,11 @@ function LogForm() {
         />
       </label>
       <input className="button" type="submit" value="Log in" />
-      {error && <p>Incorrect username or password.</p>}
+      {loginErr && <p>Incorrect username or password.</p>}
       {success && <p>Successful login.</p>}
+      {success && <Redirect to='/dashboard' />}
+      {emailErr && <p>Enter a valid e-mail.</p>}
+      {serverErr && <p>Server Error.</p>}
     </form>
   );
 }
