@@ -20,6 +20,7 @@ export function Dashboard(props: dashProps) {
     <aside>
       <p>Name: {props.user.name}</p>
       {ageP}
+      <p><a href="/dashboard/reviews">View my reviews</a></p>
       <pre>If admin, user list printed here</pre>
       <button
         onClick={(e: React.FormEvent) => {

@@ -7,9 +7,10 @@ import { User } from "../types/typedefs";
 const WHO_Q = gql`
   query whoami {
     whoami {
-      name
-      email
-      age
+      id,
+      name,
+      email,
+      age,
     }
   }
 `;

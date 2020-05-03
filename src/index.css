@@ -62,3 +62,11 @@ label {
 input {
   text-align: center;
 }
+
+.reviewimg {
+  padding-left: 10px;
+}
+
+textarea {
+  text-align: center;
+}

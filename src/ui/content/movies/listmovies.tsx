@@ -33,7 +33,7 @@ function ListMovies(props: lmProps) {
     if (data.movies.length === 0) return <h1>No movies found.</h1>;
     const movies = data.movies;
     const listItems = movies.map((movie: Movie) => (
-        <h1 key={movie.id}>{movie.title}</h1>
+        <h1 key={movie.id}>{movie.title}<a href={`/movie/${movie.id}`}><img className="reviewimg" src="/review.png" width="20" alt="Write review"/></a></h1>
     ));
     return listItems;
 }
