@@ -25,7 +25,7 @@ const LOGIN_M = gql`
   }
 `;
 
-function LogForm() {
+export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginErr, setLoginErr] = useState(false);
@@ -109,8 +109,4 @@ function LogForm() {
       {serverErr && <p>Server Error.</p>}
     </form>
   );
-}
-
-export function Login() {
-  return <LogForm />;
 }

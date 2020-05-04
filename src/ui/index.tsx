@@ -9,7 +9,7 @@ interface MyProps {
   user?: User;
 }
 
-interface AppState {}
+interface AppState { }
 
 class App extends React.Component<MyProps, AppState> {
   readonly user = this.props.user;
