@@ -25,7 +25,11 @@ const LOGIN_M = gql`
   }
 `;
 
-function LogForm() {
+interface lProps {
+  value: any;
+}
+
+function LogForm(props: lProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginErr, setLoginErr] = useState(false);
@@ -35,6 +39,7 @@ function LogForm() {
   const loginCompleted = (response: LoginResponse) => {
     if (response) {
       localStorage.setItem("token", response.loginUser.token);
+      props.value();
     }
   };
 

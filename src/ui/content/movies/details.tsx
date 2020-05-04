@@ -14,7 +14,7 @@ const MOV_Q = gql`
 `;
 
 interface mProps {
-    id?: string;
+    id: string;
 }
 
 function Details(props: mProps) {
@@ -27,7 +27,7 @@ function Details(props: mProps) {
     if (isLoading) return <p>Loading ...</p>;
     if (error) return <h1>Log in to view movies.</h1>;
 
-    if (data.movies.length === 0 || !props.id) return <h1>No movies found.</h1>;
+    if (data.movies.length === 0) return <h1>No movies found.</h1>;
     const movies = data.movies;
     const listItems = movies.map((movie: Movie) => (
         movie.id === props.id ? <div key={movie.id}><h1>Title: {movie.title}</h1><h2>Length: {movie.length ? movie.length : 'No info.'}</h2></div> : ''

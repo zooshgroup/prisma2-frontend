@@ -26,7 +26,8 @@ const REVIEW_M = gql`
 `;
 
 interface mrProps {
-  id?: string;
+  id: string;
+  newReview: any;
 }
 
 export default function MovieReview(props: mrProps) {
@@ -37,6 +38,7 @@ export default function MovieReview(props: mrProps) {
   const reviewCompleted = (response: ReviewResponse) => {
     if (response) {
       console.log(response.addReview.id);
+      props.newReview();
     }
   };
 
@@ -53,13 +55,8 @@ export default function MovieReview(props: mrProps) {
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    if (props.id) {
-      const reviewData: ReviewCreateInput = { review: review, rating: Number(rating), movieId: props.id };
-      addReview({ variables: { data: reviewData } });
-    }
-    else {
-      console.log('No movie selected.');
-    } 
+    const reviewData: ReviewCreateInput = { review: review, rating: Number(rating), movieId: props.id };
+    addReview({ variables: { data: reviewData } });
   }
 
   function handleChange(event: React.FormEvent<HTMLInputElement>) {

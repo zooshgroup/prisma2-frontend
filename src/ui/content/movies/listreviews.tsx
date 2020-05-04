@@ -16,7 +16,8 @@ const MOV_Q = gql`
 `;
 
 interface rProps {
-    id?: string;
+    id: string;
+    refresh: any;
 }
 
 export default function ListMovieReview(props: rProps) {
