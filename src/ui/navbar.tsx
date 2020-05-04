@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { UserContext } from "./shield";
 
 interface navItemProps {
   name: string;
@@ -15,12 +16,11 @@ function NavItem(props: navItemProps) {
   );
 }
 
-interface navbarProps {
-  login: boolean;
-}
+interface navbarProps {}
 
 export function Navbar(props: navbarProps) {
-  if (props.login) {
+  const user = useContext(UserContext).user;
+  if (user) {
     return (
       <ul>
         <NavItem url="/" name="Home" />

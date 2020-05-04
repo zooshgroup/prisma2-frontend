@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "./shield";
 
-interface welcomeProps {
-  name?: string;
-}
+interface welcomeProps {}
 
 export function Banner(props: welcomeProps) {
+  const user = useContext(UserContext).user;
   return (
     <h1>
-      Hello, {props.name ? props.name : "Stranger"}
+      Hello, {user ? user.name : "Stranger"}
       <span className="active">!</span>
     </h1>
   );
