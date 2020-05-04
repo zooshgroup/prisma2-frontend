@@ -1,19 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import { User, Review } from "../../../types/typedefs";
-
-const REV_Q = gql`
-  query reviews($search: String) {
-    reviews(search: $search) {
-      id,
-      review, 
-      rating, 
-      movie {title},
-      user {id, name}
-    }
-  }
-`;
+import { REV_Q } from "../../../types/models";
 
 interface lrProps {
   searchString: string;

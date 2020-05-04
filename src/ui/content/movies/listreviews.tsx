@@ -1,36 +1,23 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import { Review } from "../../../types/typedefs";
-
-const MOV_Q = gql`
-  query reviews($search: String) {
-    reviews(search: $search) {
-      review,
-      rating,
-      id,
-      user { name },
-      movie { id }
-    }
-  }
-`;
+import { REV } from "../../../types/models";
 
 interface rProps {
     id: string;
-    refresh: any;
 }
 
 export default function ListMovieReview(props: rProps) {
-    const search = '';
+    //const search = '';
 
-    const { loading: isLoading, error, data, refetch } = useQuery(MOV_Q, {
-        variables: { search: search }, fetchPolicy: "no-cache"
+    const { loading: isLoading, error, data, refetch } = useQuery(REV, {
+        //variables: { search: search }
     });
 
     const refresh = (event: any) => {
       refetch();
     }
-    console.log(props.refresh);
+
     if (isLoading) return <p>Loading ...</p>;
     if (error) return <h1>Log in to view movies.</h1>;
 

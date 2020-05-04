@@ -1,19 +1,10 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import App from ".";
 import { User } from "../types/typedefs";
+import { WHO_Q } from "../types/models";
 
-const WHO_Q = gql`
-  query whoami {
-    whoami {
-      id,
-      name,
-      email,
-      age,
-    }
-  }
-`;
+
 
 export default function ShieldedApp() {
   const { loading, error, data, refetch } = useQuery<{ whoami: User }>(WHO_Q);

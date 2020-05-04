@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import { ApolloError } from "apollo-client";
+import { REV, REV_M } from "../../../types/models";
+import { Review } from "../../../types/typedefs";
 
 interface ReviewCreateInput {
   review: string;
@@ -9,25 +10,16 @@ interface ReviewCreateInput {
   movieId: string;
 }
 
-interface ReviewResponse {
-  addReview: ReturnedReview;
+interface ReturnedReviewM {
+  addReview: Review;
 }
-
-interface ReturnedReview {
-  id: string;
-}
-
-const REVIEW_M = gql`
-  mutation addReview($data: ReviewCreateInput!) {
-    addReview( data: $data) {
-      id
-    }
-  }
-`;
 
 interface mrProps {
   id: string;
-  newReview: any;
+}
+
+interface CachedReviews {
+  reviews: any;
 }
 
 export default function MovieReview(props: mrProps) {
@@ -35,23 +27,30 @@ export default function MovieReview(props: mrProps) {
   const [review, setReview] = useState("");
   const [serverErr, setServerErr] = useState(false);
 
-  const reviewCompleted = (response: ReviewResponse) => {
+  // eslint-disable-next-line
+  const reviewCompleted = (response: ReturnedReviewM) => {
     if (response) {
-      console.log(response.addReview.id);
-      props.newReview();
     }
   };
 
   const reviewError = (error: ApolloError) => {
     setServerErr(true);
-    console.error('Server Error');
+    console.error('Server Error: '+error);
   };
 
-  const [addReview, { data: success }] = useMutation(REVIEW_M, {
-    errorPolicy: "all",
-    onCompleted: reviewCompleted,
-    onError: reviewError,
-  });
+  const [addReview, { data: success }] = useMutation(
+    REV_M, 
+    {
+      
+      update(cache, { data: { addReview } }) {
+        console.log(addReview);
+        const reviews = cache.readQuery({ query: REV }) as CachedReviews;
+        cache.writeQuery({query: REV, data: { reviews: reviews.reviews.concat([addReview]) },});
+      },
+      onError: reviewError,
+      //onCompleted: reviewCompleted,
+    }
+  );
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();

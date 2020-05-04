@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
-import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import { ApolloError } from "apollo-client";
 import { Redirect } from "react-router-dom";
 import { UserContext } from "../../context/usercontext";
+import { LOGIN_M } from "../../types/models";
 
 interface LoginInput {
   password: string;
@@ -17,14 +17,6 @@ interface LoginUserResponse {
 interface LoginResponse {
   loginUser: LoginUserResponse;
 }
-
-const LOGIN_M = gql`
-  mutation Login($data: LoginInput!) {
-    loginUser(data: $data) {
-      token
-    }
-  }
-`;
 
 export function Login() {
   const [email, setEmail] = useState("");

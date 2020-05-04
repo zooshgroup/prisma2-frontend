@@ -1,17 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import { Movie } from "../../../types/typedefs";
-
-const MOV_Q = gql`
-  query movies($search: String) {
-    movies(search: $search) {
-      title,
-      length,
-      id
-    }
-  }
-`;
+import { MOV_Q } from "../../../types/models";
 
 interface mProps {
     id: string;
