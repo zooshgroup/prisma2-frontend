@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import { ApolloError } from "apollo-client";
 import { Redirect } from "react-router-dom";
+import { UserContext } from "../usercontext";
 
 interface LoginInput {
   password: string;
@@ -31,10 +32,12 @@ function LogForm() {
   const [loginErr, setLoginErr] = useState(false);
   const [emailErr, setEmailErr] = useState(false);
   const [serverErr, setServerErr] = useState(false);
+  const refreshUser = useContext(UserContext).refreshUser;
 
   const loginCompleted = (response: LoginResponse) => {
     if (response) {
       localStorage.setItem("token", response.loginUser.token);
+      refreshUser();
     }
   };
 

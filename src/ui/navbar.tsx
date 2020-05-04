@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { UserContext } from "./shield";
+import { UserContext } from "./usercontext";
 
 interface navItemProps {
   name: string;

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { UserContext } from "../shield";
+import { UserContext } from "../usercontext";
 
 interface dashProps {}
 

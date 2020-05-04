@@ -13,13 +13,16 @@ const WHO_Q = gql`
     }
   }
 `;
+
 interface UserCtx {
   user?: User;
   refreshUser: ()=>void;
 }
+
 const defUserCtx: UserCtx =  {
-  refreshUser: ()=>{}
+  refreshUser: ()=>{},
 }
+
 export const UserContext = React.createContext(defUserCtx);
 
 export default function ShieldedApp() {
