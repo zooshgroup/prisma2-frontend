@@ -6,7 +6,9 @@ interface dashProps {}
 
 export function Dashboard(props: dashProps) {
   const [logout, setLogout] = useState(false);
-  const user = useContext(UserContext).user;
+  const userCtx = useContext(UserContext);
+  const user = userCtx.user;
+  const refeshUser = userCtx.refreshUser;
 
   if (!user) return <h1>Log in to view page.</h1>;
   let ageP =
@@ -23,7 +25,8 @@ export function Dashboard(props: dashProps) {
       <button
         onClick={(e: React.FormEvent) => {
           localStorage.removeItem("token");
-          setLogout(true);
+          refeshUser();
+          setLogout(true);          
         }}
       >
         Log out
