@@ -13,24 +13,48 @@ interface contentProps {
 }
 
 export function Content(props: contentProps) {
-  return (
-    <Switch>
-      <Route path="/" exact>
-        <Home />
-      </Route>
-      <Route path="/login">
-        <Login />
-      </Route>
-      <Route path="/register">
-        <Register />
-      </Route>
-      <Route path="/movies">
-        <Movies />
-      </Route>
-      <Route path="/dashboard">
-        <Dashboard user={props.user} />
-      </Route>
-      <Route component={PageNotFound} />
-    </Switch>
-  );
+  if (props.user) {
+    return (
+      <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/register">
+          <Register />
+        </Route>
+        <Route path="/movies">
+          <Movies />
+        </Route>
+        <Route path="/dashboard">
+          <Dashboard user={props.user} />
+        </Route>
+        <Route component={PageNotFound} />
+      </Switch>
+    );
+  }
+  else {
+    return (
+      <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/register">
+          <Register />
+        </Route>
+        <Route path="/movies">
+          <Login />
+        </Route>
+        <Route path="/dashboard">
+          <Login />
+        </Route>
+        <Route component={PageNotFound} />
+      </Switch>
+    );
+  }
 }
