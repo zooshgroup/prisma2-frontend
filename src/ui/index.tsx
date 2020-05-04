@@ -8,6 +8,7 @@ import { UserContext } from "../context/usercontext";
 
 interface MyProps {
   user?: User;
+  refresh: ()=>void;
 }
 
 interface AppState {}
@@ -21,7 +22,7 @@ class App extends React.Component<MyProps, AppState> {
   render() {
     return (
       <Router>
-        <UserContext.Provider value={this.upDate}>
+        <UserContext.Provider value={this.props.refresh}>
           <main>
             <header>
               <Banner name={this.user && this.user.name} />

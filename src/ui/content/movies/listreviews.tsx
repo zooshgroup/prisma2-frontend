@@ -24,13 +24,13 @@ export default function ListMovieReview(props: rProps) {
     const search = '';
 
     const { loading: isLoading, error, data, refetch } = useQuery(MOV_Q, {
-        variables: { search: search },
+        variables: { search: search }, fetchPolicy: "no-cache"
     });
 
     const refresh = (event: any) => {
       refetch();
     }
-
+    console.log(props.refresh);
     if (isLoading) return <p>Loading ...</p>;
     if (error) return <h1>Log in to view movies.</h1>;
 

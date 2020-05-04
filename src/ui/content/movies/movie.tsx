@@ -12,8 +12,9 @@ export function Movie() {
 
   const updateCb = () => {
     setUpdate(update+1);
-    console.log(update);
   }
+
+  console.log(update);
 
   return (
     <div>

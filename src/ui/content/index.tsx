@@ -9,7 +9,6 @@ import { Home } from "./home";
 import { User } from "../../types/typedefs";
 import { Switch, Route } from "react-router-dom";
 import { Movie } from "./movies/movie";
-import { UserContext } from "../../context/usercontext";
 
 interface contentProps {
   user?: User;
@@ -23,11 +22,7 @@ export class Content extends React.Component<contentProps,{}> {
           <Home />
         </Route>
         <Route path="/login">
-          <UserContext.Consumer>
-            {
-              value => (<Login value={value}/>)
-            }
-          </UserContext.Consumer>
+          <Login />
         </Route>
         <Route path="/register">
           <Register />
