@@ -1,19 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Login } from "./login";
 import { Movies } from "./movies";
 import { Register } from "./register";
 import { Dashboard } from "./dashboard";
 import { PageNotFound } from "./notfound";
 import { Home } from "./home";
-import { User } from "../../types/typedefs";
 import { Switch, Route } from "react-router-dom";
+import { UserContext } from "./usercontext";
 
-interface contentProps {
-  user?: User;
-}
+interface contentProps {}
 
 export function Content(props: contentProps) {
-  if (props.user) {
+  const user = useContext(UserContext).user;
+  
+  if (user) {
     return (
       <Switch>
         <Route path="/" exact>
@@ -29,7 +29,7 @@ export function Content(props: contentProps) {
           <Movies />
         </Route>
         <Route path="/dashboard">
-          <Dashboard user={props.user} />
+          <Dashboard />
         </Route>
         <Route component={PageNotFound} />
       </Switch>
