@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 interface MyProps {}
 
-interface AppState {}
+interface AppState { }
 
 class App extends React.Component<MyProps, AppState> {
 
