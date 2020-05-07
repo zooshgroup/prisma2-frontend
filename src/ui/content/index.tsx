@@ -5,7 +5,7 @@ import { Register } from "./register";
 import { Dashboard } from "./dashboard";
 import { PageNotFound } from "./notfound";
 import { Home } from "./home";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { UserContext } from "./usercontext";
 
 interface contentProps {}
