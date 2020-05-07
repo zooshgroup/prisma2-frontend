@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { UserContext } from "./usercontext";
 
 interface navItemProps {
   name: string;
   url: string;
 }
+
 function NavItem(props: navItemProps) {
   return (
     <li>
@@ -15,12 +17,12 @@ function NavItem(props: navItemProps) {
   );
 }
 
-interface navbarProps {
-  login: boolean;
-}
+interface navbarProps {}
 
 export function Navbar(props: navbarProps) {
-  if (props.login) {
+  const loggedIn = useContext(UserContext).isLoggedIn;
+  console.log(loggedIn);
+  if (loggedIn) {
     return (
       <ul>
         <NavItem url="/" name="Home" />
@@ -29,11 +31,13 @@ export function Navbar(props: navbarProps) {
       </ul>
     );
   }
-  return (
-    <ul>
-      <NavItem url="/" name="Home" />
-      <NavItem url="/login" name="Login" />
-      <NavItem url="/register" name="Register" />
-    </ul>
-  );
+  else {
+    return (
+      <ul>
+        <NavItem url="/" name="Home" />
+        <NavItem url="/login" name="Login" />
+        <NavItem url="/register" name="Register" />
+      </ul>
+    );
+  }
 }
