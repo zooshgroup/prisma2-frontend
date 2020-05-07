@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { ApolloError } from "apollo-client";
-import { Redirect } from "react-router-dom";
-import { UserContext } from "../../context/usercontext";
+import { UserContext } from "../usercontext";
 import { LOGIN_M } from "../../types/models";
 
 interface LoginInput {
@@ -24,12 +23,12 @@ export function Login() {
   const [loginErr, setLoginErr] = useState(false);
   const [emailErr, setEmailErr] = useState(false);
   const [serverErr, setServerErr] = useState(false);
-  const refresh = useContext(UserContext);
+  const refreshUser = useContext(UserContext).refreshUser;
 
   const loginCompleted = (response: LoginResponse) => {
     if (response) {
       localStorage.setItem("token", response.loginUser.token);
-      refresh();
+      refreshUser();
     }
   };
 
@@ -43,7 +42,7 @@ export function Login() {
     }
   };
 
-  const [login, { data: success }] = useMutation(LOGIN_M, {
+  const [login] = useMutation(LOGIN_M, {
     errorPolicy: "all",
     onCompleted: loginCompleted,
     onError: loginError,
@@ -98,8 +97,6 @@ export function Login() {
       </label>
       <input className="button" type="submit" value="Log in" />
       {loginErr && <p>Incorrect username or password.</p>}
-      {success && <p>Successful login.</p>}
-      {success && <Redirect to='/dashboard' />}
       {emailErr && <p>Enter a valid e-mail.</p>}
       {serverErr && <p>Server Error.</p>}
     </form>
