@@ -27,8 +27,6 @@ export function Login() {
   const [serverErr, setServerErr] = useState(false);
   const refreshUser = useContext(UserContext).refreshUser;
 
-  console.log(loginSuc);
-
   const loginCompleted = (response: LoginResponse) => {
     if (response) {
       localStorage.setItem("token", response.loginUser.token);

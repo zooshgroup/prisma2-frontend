@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { UserContext } from "../usercontext";
 
-interface dashProps {}
+interface dashProps { }
 
 export function Dashboard(props: dashProps) {
   const [logout, setLogout] = useState(false);
@@ -27,7 +27,7 @@ export function Dashboard(props: dashProps) {
         onClick={(e: React.FormEvent) => {
           localStorage.removeItem("token");
           refeshUser();
-          setLogout(true);          
+          setLogout(true);
         }}
       >
         Log out

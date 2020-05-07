@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { UserContext } from "./usercontext";
 
-interface welcomeProps {}
+interface welcomeProps { }
 
 export function Banner(props: welcomeProps) {
   const isLoggedIn = useContext(UserContext).isLoggedIn;

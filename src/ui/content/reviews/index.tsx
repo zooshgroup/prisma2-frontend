@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import ListReviews from "./listreviews";
 import { UserContext } from "../../usercontext";
 
-interface revProps {}
+interface revProps { }
 
 export function Reviews(props: revProps) {
   const [search, upSearch] = useState("");

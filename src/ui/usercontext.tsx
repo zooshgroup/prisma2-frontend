@@ -6,23 +6,23 @@ import { WHO_Q } from "../types/models";
 
 interface UserCtx {
   user?: User;
-  refreshUser: ()=>void;
+  refreshUser: () => void;
   isLoggedIn: boolean;
 }
 
-const defUserCtx: UserCtx =  {
-  refreshUser: ()=>{},
+const defUserCtx: UserCtx = {
+  refreshUser: () => { },
   isLoggedIn: false,
 }
 
 export const UserContext = React.createContext(defUserCtx);
 
 export default function ShieldedApp() {
-  const { loading, error, data, refetch } = useQuery<{ whoami: User }>(WHO_Q, {onCompleted: ()=>setLoggedIn(data?true:false)});
-  const [ loggedIn, setLoggedIn ] = useState(false);
+  const { loading, error, data, refetch } = useQuery<{ whoami: User }>(WHO_Q, { onCompleted: () => setLoggedIn(data ? true : false) });
+  const [loggedIn, setLoggedIn] = useState(false);
   const refetchUser = async () => {
-    try { 
-      const {data:newData} = await refetch();
+    try {
+      const { data: newData } = await refetch();
       if (newData) setLoggedIn(true);
     }
     catch (error) {
@@ -41,9 +41,9 @@ export default function ShieldedApp() {
         {netErr}Server Error<span className="active">.</span>
       </h1>
     );
-  return ( 
-    <UserContext.Provider value={{user: data && data.whoami, refreshUser: refetchUser, isLoggedIn: loggedIn}}>
-      <App/>
+  return (
+    <UserContext.Provider value={{ user: data && data.whoami, refreshUser: refetchUser, isLoggedIn: loggedIn }}>
+      <App />
     </UserContext.Provider>
-    );
+  );
 }

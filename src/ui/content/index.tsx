@@ -10,11 +10,11 @@ import { Reviews } from "./reviews";
 import { Movie } from "./movies/movie";
 import { UserContext } from "../usercontext";
 
-interface contentProps {}
+interface contentProps { }
 
 export function Content(props: contentProps) {
   const user = useContext(UserContext).user;
-  
+
   if (user) {
     return (
       <Switch>

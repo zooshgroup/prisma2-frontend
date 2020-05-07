@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ListMovies from "./listmovies";
+import { ListMovies } from "./listmovies";
 
 export function Movies() {
   const [search, upSearch] = useState("");

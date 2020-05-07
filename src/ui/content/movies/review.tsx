@@ -35,21 +35,21 @@ export default function MovieReview(props: mrProps) {
 
   const reviewError = (error: ApolloError) => {
     setServerErr(true);
-    console.error('Server Error: '+error);
+    console.error('Server Error: ' + error);
   };
 
   const [addReview, { data: success }] = useMutation(
-    REV_M, 
+    REV_M,
     {
-      
+
       update(cache, { data: { addReview } }) {
         console.log(addReview);
         const reviews = cache.readQuery({ query: REV }) as CachedReviews;
-        cache.writeQuery({query: REV, data: { reviews: reviews.reviews.concat([addReview]) },});
+        cache.writeQuery({ query: REV, data: { reviews: reviews.reviews.concat([addReview]) }, });
       },
       onError: reviewError,
       //onCompleted: reviewCompleted,
-    }
+    },
   );
 
   function handleSubmit(event: React.FormEvent) {

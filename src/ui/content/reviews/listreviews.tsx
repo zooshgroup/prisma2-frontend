@@ -17,7 +17,7 @@ function ListReviews(props: lrProps) {
   });
 
   if (isLoading) return <p>Loading ...</p>;
-  if (error || !user) return <h1>Log in to view reviews.</h1>;
+  if (error || !user) return <h1>Log in to view reviews.</h1>;
 
   const reviews = data.reviews;
   const listItems = reviews.map((review: Review) => (
