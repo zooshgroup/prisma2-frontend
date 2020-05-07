@@ -21,7 +21,7 @@ interface navbarProps {}
 
 export function Navbar(props: navbarProps) {
   const loggedIn = useContext(UserContext).isLoggedIn;
-  console.log(loggedIn);
+  
   if (loggedIn) {
     return (
       <ul>
