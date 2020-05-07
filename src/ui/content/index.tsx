@@ -48,10 +48,10 @@ export function Content(props: contentProps) {
           <Register />
         </Route>
         <Route path="/movies">
-          <Login />
+          <Redirect to='/login' />
         </Route>
         <Route path="/dashboard">
-          <Login />
+          <Redirect to='/login' />
         </Route>
         <Route component={PageNotFound} />
       </Switch>
