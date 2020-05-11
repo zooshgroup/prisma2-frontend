@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { ApolloError } from "apollo-client";
-import { REV, REV_M } from "../../../types/models";
+import { REV_Q, REV_M } from "../../../types/models";
 import { Review } from "../../../types/typedefs";
 
 interface ReviewCreateInput {
@@ -27,9 +27,9 @@ export default function MovieReview(props: mrProps) {
   const [review, setReview] = useState("");
   const [serverErr, setServerErr] = useState(false);
 
-  // eslint-disable-next-line
   const reviewCompleted = (response: ReturnedReviewM) => {
     if (response) {
+      console.log(response);
     }
   };
 
@@ -41,14 +41,13 @@ export default function MovieReview(props: mrProps) {
   const [addReview, { data: success }] = useMutation(
     REV_M,
     {
-
-      update(cache, { data: { addReview } }) {
-        console.log(addReview);
-        const reviews = cache.readQuery({ query: REV }) as CachedReviews;
-        cache.writeQuery({ query: REV, data: { reviews: reviews.reviews.concat([addReview]) }, });
+      update(cache, { data }) {
+        if (!data) return;
+        const reviews = cache.readQuery({ query: REV_Q }) as CachedReviews;
+        cache.writeQuery({ query: REV_Q, data: { reviews: reviews.reviews.concat([data.addReview]) }, });
       },
       onError: reviewError,
-      //onCompleted: reviewCompleted,
+      onCompleted: reviewCompleted,
     },
   );
 
@@ -58,16 +57,10 @@ export default function MovieReview(props: mrProps) {
     addReview({ variables: { data: reviewData } });
   }
 
-  function handleChange(event: React.FormEvent<HTMLInputElement>) {
+  function handleChange(event: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>) {
     setServerErr(false);
-    if (event.currentTarget.name === "rating") {
+    if (event.currentTarget.name === "rating")
       setRating(event.currentTarget.value);
-    }
-    if (event.currentTarget.name === "review")
-      setReview(event.currentTarget.value);
-  }
-
-  function handleChange2(event: React.FormEvent<HTMLTextAreaElement>) {
     if (event.currentTarget.name === "review")
       setReview(event.currentTarget.value);
   }
@@ -88,7 +81,7 @@ export default function MovieReview(props: mrProps) {
         />
       </label>
       <label>
-        <textarea name="review" form="movieReview-zs84r" value={review} onChange={handleChange2} placeholder="Review"></textarea>
+        <textarea name="review" form="movieReview-zs84r" value={review} onChange={handleChange} placeholder="Review"></textarea>
       </label>
       <input className="button" type="submit" value="Send" />
       {serverErr && <p>Server Error.</p>}
