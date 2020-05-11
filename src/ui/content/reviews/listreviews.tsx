@@ -16,16 +16,19 @@ function ListReviews(props: lrProps) {
     variables: { search: search },
   });
 
-  if (isLoading) return <p>Loading ...</p>;
+  if (isLoading) {
+    return <p>Loading ...</p>;
+  }
   if (error || !user) return <h1>Log in to view reviews.</h1>;
 
   const reviews = data.reviews;
-  const listItems = reviews.map((review: Review) => (
-    review.user.id === user.id ? <h1 key={review.id}>{review.review}</h1> : ''
-  ));
+  const filteredReviews = reviews.filter((r: Review) => r.user.id === user.id);
+
+  const listItems = filteredReviews.map((review: Review) => {
+    return (<h1 key={review.id}>{review.review} <br />on {review.movie.title}</h1>);
+  });
 
   if (listItems.length === 0) return <h1>No reviews found.</h1>;
-
   return listItems;
 }
 

@@ -44,19 +44,7 @@ query reviews($search: String) {
     rating,
     id,
     user { id, name },
-    movie { id }
-  }
-}
-`;
-
-export const REV = gql`
-query reviews {
-  reviews {
-    review,
-    rating,
-    id,
-    user { id, name },
-    movie { id }
+    movie { id, title }
   }
 }
 `;

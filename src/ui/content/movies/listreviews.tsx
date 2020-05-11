@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { Review } from "../../../types/typedefs";
-import { REV } from "../../../types/models";
+import { REV_Q } from "../../../types/models";
 
 interface rProps {
   id: string;
@@ -9,7 +9,7 @@ interface rProps {
 
 export default function ListMovieReview(props: rProps) {
   //const search = '';
-  const { loading: isLoading, error, data } = useQuery(REV, {
+  const { loading: isLoading, error, data } = useQuery(REV_Q, {
     //variables: { search: search }
   });
 
