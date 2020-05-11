@@ -27,10 +27,9 @@ export default function MovieReview(props: mrProps) {
   const [review, setReview] = useState("");
   const [serverErr, setServerErr] = useState(false);
 
-  const reviewCompleted = (response: ReturnedReviewM) => {
-    if (response) {
-      console.log(response);
-    }
+  const reviewCompleted = (response: ReturnedReviewM) => {    
+    setRating("");
+    setReview("");
   };
 
   const reviewError = (error: ApolloError) => {
