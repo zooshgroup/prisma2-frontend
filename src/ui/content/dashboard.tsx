@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { User } from "../../types/typedefs";
 import { Redirect } from "react-router-dom";
+import { Recommendations } from "./recommendations";
 
 interface dashProps {
   user?: User;
@@ -20,7 +21,8 @@ export function Dashboard(props: dashProps) {
     <aside>
       <p>Name: {props.user.name}</p>
       {ageP}
-      <pre>If admin, user list printed here</pre>
+      <pre>Recommendations for you:</pre>
+      <Recommendations />
       <button
         onClick={(e: React.FormEvent) => {
           localStorage.removeItem("token");
