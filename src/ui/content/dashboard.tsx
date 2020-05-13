@@ -23,7 +23,7 @@ export function Dashboard(props: dashProps) {
       {ageP}
       <pre>Recommendations for you:</pre>
       <Recommendations />
-      <button
+      <button id="logOut"
         onClick={(e: React.FormEvent) => {
           localStorage.removeItem("token");
           setLogout(true);

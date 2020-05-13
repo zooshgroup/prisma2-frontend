@@ -43,7 +43,7 @@ export function Recommendations(props: lmProps) {
     const recs = data.recommendMovies;
     
     const listItems = recs.map((rec: Recommendations) => (
-    <h1 key={rec.movie.id}>{rec.movie.title}<br/><kbd>Because <em>{rec.info.user_id} </em> liked these similarly as you: {rec.info.movies}</kbd></h1>
+    <h1 key={rec.movie.id}>{rec.movie.title}<br/><kbd>Because <em>{rec.info.user_id} </em> liked these similarly as you:<br/>{rec.info.movies}</kbd></h1>
     ));
     return listItems;
 }
