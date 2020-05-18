@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
-import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import { ApolloError } from "apollo-client";
+import { UserContext } from "../usercontext";
+import { LOGIN_M } from "../../types/models";
 import { Redirect } from "react-router-dom";
 import { UserContext } from "../usercontext";
 
@@ -18,17 +19,10 @@ interface LoginResponse {
   loginUser: LoginUserResponse;
 }
 
-const LOGIN_M = gql`
-  mutation Login($data: LoginInput!) {
-    loginUser(data: $data) {
-      token
-    }
-  }
-`;
-
 export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginSuc, setLoginSuc] = useState(false);
   const [loginErr, setLoginErr] = useState(false);
   const [emailErr, setEmailErr] = useState(false);
   const [serverErr, setServerErr] = useState(false);
@@ -38,6 +32,7 @@ export function Login() {
     if (response) {
       localStorage.setItem("token", response.loginUser.token);
       refreshUser();
+      setLoginSuc(true);
     }
   };
 
@@ -51,7 +46,7 @@ export function Login() {
     }
   };
 
-  const [login, { data: success }] = useMutation(LOGIN_M, {
+  const [login] = useMutation(LOGIN_M, {
     errorPolicy: "all",
     onCompleted: loginCompleted,
     onError: loginError,
@@ -105,9 +100,8 @@ export function Login() {
         />
       </label>
       <input className="button" type="submit" value="Log in" />
+      {loginSuc && <Redirect to='/dashboard' />}
       {loginErr && <p>Incorrect username or password.</p>}
-      {success && <p>Successful login.</p>}
-      {success && <Redirect to='/dashboard' />}
       {emailErr && <p>Enter a valid e-mail.</p>}
       {serverErr && <p>Server Error.</p>}
     </form>

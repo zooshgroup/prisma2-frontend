@@ -17,7 +17,7 @@ function NavItem(props: navItemProps) {
   );
 }
 
-interface navbarProps {}
+interface navbarProps { }
 
 export function Navbar(props: navbarProps) {
   const loggedIn = useContext(UserContext).isLoggedIn;

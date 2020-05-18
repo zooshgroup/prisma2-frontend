@@ -6,9 +6,11 @@ import { Dashboard } from "./dashboard";
 import { PageNotFound } from "./notfound";
 import { Home } from "./home";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { Reviews } from "./reviews";
+import { Movie } from "./movies/movie";
 import { UserContext } from "./usercontext";
 
-interface contentProps {}
+interface contentProps { }
 
 export function Content(props: contentProps) {
   const user = useContext(UserContext).user;
@@ -28,8 +30,14 @@ export function Content(props: contentProps) {
         <Route path="/movies">
           <Movies />
         </Route>
-        <Route path="/dashboard">
+        <Route path="/movie/:movieId">
+          <Movie />
+        </Route>
+        <Route exact path="/dashboard">
           <Dashboard />
+        </Route>
+        <Route exact path="/dashboard/reviews">
+          <Reviews />
         </Route>
         <Route component={PageNotFound} />
       </Switch>
@@ -50,7 +58,13 @@ export function Content(props: contentProps) {
         <Route path="/movies">
           <Redirect to='/login' />
         </Route>
-        <Route path="/dashboard">
+        <Route path="/movie/:movieId">
+          <Redirect to='/login' />
+        </Route>
+        <Route exact path="/dashboard">
+          <Redirect to='/login' />
+        </Route>
+        <Route exact path="/dashboard/reviews">
           <Redirect to='/login' />
         </Route>
         <Route component={PageNotFound} />

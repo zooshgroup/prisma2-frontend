@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import { ApolloError } from "apollo-client";
+import { REG_M } from "../../types/models";
 
 interface UserCreateInput {
   name: string;
@@ -17,14 +17,6 @@ interface SignupResponse {
 interface RegisterResponse {
   signupUser: SignupResponse;
 }
-
-const REG_M = gql`
-  mutation Register($data: UserCreateInput!) {
-    signupUser(data: $data) {
-      name
-    }
-  }
-`;
 
 function RegForm() {
   const [email, setEmail] = useState("");
