@@ -14,11 +14,11 @@ class App extends React.Component<MyProps, AppState> {
       <Router>
         <main>
           <header>
-            <Banner />
-            <Navbar />
+            <Banner/>
+            <Navbar/>
           </header>
           <article>
-            <Content />
+            <Content/>
           </article>
         </main>
       </Router>

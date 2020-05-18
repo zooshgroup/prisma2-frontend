@@ -70,3 +70,17 @@ input {
 textarea {
   text-align: center;
 }
+
+#logOut {
+  margin-bottom: 30px;
+  border-radius: 0px;
+  border: 1px solid black;
+  padding: 15px 30px;
+  cursor: pointer;
+}
+
+#logOut:hover {
+  background-color: rgba(1,1,1,0.9);
+  border: 1px solid orange;
+  color: orange;
+}

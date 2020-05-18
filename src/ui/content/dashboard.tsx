@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
+import { Recommendations } from "./recommendations";
 import { UserContext } from "../usercontext";
 
 interface dashProps { }
@@ -19,15 +20,17 @@ export function Dashboard(props: dashProps) {
       );
   return (
     <aside>
-      <p>Name: {user.name}</p>
+      <p>Name: {user.name}</p>
       {ageP}
       <p><a href="/dashboard/reviews">View my reviews</a></p>
-      <pre>If admin, user list printed here</pre>
-      <button
+      <pre>Recommendations for you:</pre>
+      <Recommendations />
+      <button id="logOut"
         onClick={(e: React.FormEvent) => {
           localStorage.removeItem("token");
           refeshUser();
-          setLogout(true);
+          setLogout(true);          
+
         }}
       >
         Log out

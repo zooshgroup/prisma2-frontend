@@ -18,3 +18,4 @@ export type Review = {
   movie: Movie;
   user: User;
 }
+
