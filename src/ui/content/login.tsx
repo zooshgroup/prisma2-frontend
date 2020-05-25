@@ -4,7 +4,6 @@ import { ApolloError } from "apollo-client";
 import { UserContext } from "../usercontext";
 import { LOGIN_M } from "../../types/models";
 import { Redirect } from "react-router-dom";
-import { UserContext } from "../usercontext";
 
 interface LoginInput {
   password: string;
