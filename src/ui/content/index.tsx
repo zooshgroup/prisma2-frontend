@@ -8,7 +8,7 @@ import { Home } from "./home";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Reviews } from "./reviews";
 import { Movie } from "./movies/movie";
-import { UserContext } from "./usercontext";
+import { UserContext } from "../usercontext"
 
 interface contentProps { }
 
